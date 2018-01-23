@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Neighbourhood Map</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+
+<body>
+    <div class="flex-container">
+        <div class="options-box">
+            <h1>Neighbourhood Map: Universities in Astana</h1>
+            <div>
+                <button id="show-listings">Show Listings</button>
+                <button id="hide-listings">Hide Listings</button>
+            </div>
+            <div id="error"></div>
+            <div class="locations_list">List of Universities </div>
+            <p>Type in the name or chose one from the list</p>
+            <form>
+                <input placeholder="What are you searching?" data-bind="textInput: searchInput, event: {keyup: search}">
+                <button type="submit" id="clear">Clear</button>
+            </form>
+
+            <ul data-bind="foreach: search_result " style="list-style-type: none">
+                <li data-bind="text: title, click: $parent.clicked">
+                </li>
+                <hr>
+            </ul>
+        </div>
+
+        <div id="map" class="map"></div>
+
+    </div>
+
+    <script src="js/lib/knockout-3.4.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <!-- Asynchronous to let the whole page to render, while info is loading -->
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwnv0LEWgGaTZKtPbEIeAv-QFXsth5ZYI&callback=initApp" 
+	        onerror="error()">
+    </script>
+
+
+</body>
+
+</html>
