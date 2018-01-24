@@ -12,7 +12,7 @@ function initMap() {
     if (mq.matches) {
         zoom_var = 11;
     } else {
-        zoom_var = 17;
+        zoom_var = 13;
     }
     // initialize map centered at Astana
     map = new google.maps.Map(document.getElementById('map'), {
@@ -20,7 +20,88 @@ function initMap() {
             lat: 51.1605,
             lng: 71.4704
         },
-        zoom: zoom_var
+        zoom: zoom_var,
+		// Night map style taken from Google Maps APIs Documentation
+		styles: [
+            {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+            {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+            {elementType: 'labels.text.fill', stylers: [{color: '#fbfbfb'}]},
+            {
+              featureType: 'administrative.locality',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'poi',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'poi.park',
+              elementType: 'geometry',
+              stylers: [{color: '#263c3f'}]
+            },
+            {
+              featureType: 'poi.park',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#6b9a76'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'geometry',
+              stylers: [{color: '#38414e'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'geometry.stroke',
+              stylers: [{color: '#212a37'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#9ca5b3'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'geometry',
+              stylers: [{color: '#746855'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'geometry.stroke',
+              stylers: [{color: '#1f2835'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#f3d19c'}]
+            },
+            {
+              featureType: 'transit',
+              elementType: 'geometry',
+              stylers: [{color: '#2f3948'}]
+            },
+            {
+              featureType: 'transit.station',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'geometry',
+              stylers: [{color: '#17263c'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#515c6d'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'labels.text.stroke',
+              stylers: [{color: '#17263c'}]
+            }
+          ]
     });
 }
 
@@ -168,7 +249,18 @@ var ViewModel = function() {
         });
         map.fitBounds(bounds);
     }
-
+	 // Displays markers on the map when 'Show' is pressed
+    function showListings() {
+        var bounds = new google.maps.LatLngBounds();
+        self.locations_list.forEach(function(item) {
+			infoWindow.close();
+            item.marker.setVisible(true);
+            item.marker.setMap(map);
+            bounds.extend(item.marker.position);
+        });
+        map.fitBounds(bounds);
+    }
+	
     // searches for universities by its title
     self.search_result = ko.observableArray();
     self.searchInput = ko.observable('');
@@ -194,7 +286,7 @@ var ViewModel = function() {
         self.search_result.removeAll();
         // adds if a match
         self.locations_list.forEach(function(item) {
-            if (item.title.indexOf(searchItem) !== -1) {
+            if (item.title.toUpperCase().indexOf(searchItem.toUpperCase()) !== -1) {
                 self.search_result.push(item);
                 item.marker.setVisible(true);
                 // extends bounds to fit found markers
@@ -214,7 +306,8 @@ var ViewModel = function() {
 function initApp() {
 	//initMap is called to initialize a map
     initMap();
-	// binding is applied
+	
+	// KnockoutJS binding is applied
     viewModel = new ViewModel();
     ko.applyBindings(viewModel);
 
