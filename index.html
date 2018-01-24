@@ -13,15 +13,15 @@
         <div class="options-box">
             <h1>Neighbourhood Map: Universities in Astana</h1>
             <div>
-                <button id="show-listings">Show Listings</button>
-                <button id="hide-listings">Hide Listings</button>
+                <button data-bind="click: showListings">Show Listings</button>
+                <button data-bind="click: hideListings">Hide Listings</button>
             </div>
             <div id="error"></div>
             <div class="locations_list">List of Universities </div>
             <p>Type in the name or chose one from the list</p>
             <form>
                 <input placeholder="What are you searching?" data-bind="textInput: searchInput, event: {keyup: search}">
-                <button type="submit" id="clear">Clear</button>
+                <button type="submit" data-bind="click: clearForm">Clear</button>
             </form>
 
             <ul data-bind="foreach: search_result " style="list-style-type: none">

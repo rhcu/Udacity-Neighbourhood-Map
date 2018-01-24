@@ -21,95 +21,139 @@ function initMap() {
             lng: 71.4704
         },
         zoom: zoom_var,
-		// Night map style taken from Google Maps APIs Documentation
-		styles: [
-            {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
-            {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
-            {elementType: 'labels.text.fill', stylers: [{color: '#fbfbfb'}]},
-            {
-              featureType: 'administrative.locality',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#d59563'}]
+        // Night map style taken from Google Maps APIs Documentation
+        styles: [{
+                elementType: 'geometry',
+                stylers: [{
+                    color: '#242f3e'
+                }]
             },
             {
-              featureType: 'poi',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#d59563'}]
+                elementType: 'labels.text.stroke',
+                stylers: [{
+                    color: '#242f3e'
+                }]
             },
             {
-              featureType: 'poi.park',
-              elementType: 'geometry',
-              stylers: [{color: '#263c3f'}]
+                elementType: 'labels.text.fill',
+                stylers: [{
+                    color: '#fbfbfb'
+                }]
             },
             {
-              featureType: 'poi.park',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#6b9a76'}]
+                featureType: 'administrative.locality',
+                elementType: 'labels.text.fill',
+                stylers: [{
+                    color: '#d59563'
+                }]
             },
             {
-              featureType: 'road',
-              elementType: 'geometry',
-              stylers: [{color: '#38414e'}]
+                featureType: 'poi',
+                elementType: 'labels.text.fill',
+                stylers: [{
+                    color: '#d59563'
+                }]
             },
             {
-              featureType: 'road',
-              elementType: 'geometry.stroke',
-              stylers: [{color: '#212a37'}]
+                featureType: 'poi.park',
+                elementType: 'geometry',
+                stylers: [{
+                    color: '#263c3f'
+                }]
             },
             {
-              featureType: 'road',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#9ca5b3'}]
+                featureType: 'poi.park',
+                elementType: 'labels.text.fill',
+                stylers: [{
+                    color: '#6b9a76'
+                }]
             },
             {
-              featureType: 'road.highway',
-              elementType: 'geometry',
-              stylers: [{color: '#746855'}]
+                featureType: 'road',
+                elementType: 'geometry',
+                stylers: [{
+                    color: '#38414e'
+                }]
             },
             {
-              featureType: 'road.highway',
-              elementType: 'geometry.stroke',
-              stylers: [{color: '#1f2835'}]
+                featureType: 'road',
+                elementType: 'geometry.stroke',
+                stylers: [{
+                    color: '#212a37'
+                }]
             },
             {
-              featureType: 'road.highway',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#f3d19c'}]
+                featureType: 'road',
+                elementType: 'labels.text.fill',
+                stylers: [{
+                    color: '#9ca5b3'
+                }]
             },
             {
-              featureType: 'transit',
-              elementType: 'geometry',
-              stylers: [{color: '#2f3948'}]
+                featureType: 'road.highway',
+                elementType: 'geometry',
+                stylers: [{
+                    color: '#746855'
+                }]
             },
             {
-              featureType: 'transit.station',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#d59563'}]
+                featureType: 'road.highway',
+                elementType: 'geometry.stroke',
+                stylers: [{
+                    color: '#1f2835'
+                }]
             },
             {
-              featureType: 'water',
-              elementType: 'geometry',
-              stylers: [{color: '#17263c'}]
+                featureType: 'road.highway',
+                elementType: 'labels.text.fill',
+                stylers: [{
+                    color: '#f3d19c'
+                }]
             },
             {
-              featureType: 'water',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#515c6d'}]
+                featureType: 'transit',
+                elementType: 'geometry',
+                stylers: [{
+                    color: '#2f3948'
+                }]
             },
             {
-              featureType: 'water',
-              elementType: 'labels.text.stroke',
-              stylers: [{color: '#17263c'}]
+                featureType: 'transit.station',
+                elementType: 'labels.text.fill',
+                stylers: [{
+                    color: '#d59563'
+                }]
+            },
+            {
+                featureType: 'water',
+                elementType: 'geometry',
+                stylers: [{
+                    color: '#17263c'
+                }]
+            },
+            {
+                featureType: 'water',
+                elementType: 'labels.text.fill',
+                stylers: [{
+                    color: '#515c6d'
+                }]
+            },
+            {
+                featureType: 'water',
+                elementType: 'labels.text.stroke',
+                stylers: [{
+                    color: '#17263c'
+                }]
             }
-          ]
+        ]
     });
 }
 
 // Error Handling from Google Maps
 function error() {
-        alert("The error was occured. Try to reload the page later");
-    }
-    // Constractor for University that takes data from model as argument
+    alert("The error was occured. Try to reload the page later");
+}
+// Constractor for University that takes data from model as argument
 var University = function(item) {
     this.title = item.title;
     this.located = item.located;
@@ -133,10 +177,6 @@ function makeMarkerIcon(markerColor) {
 var ViewModel = function() {
 
     var self = this;
-
-    document.getElementById('hide-listings').addEventListener('click', hideListings);
-    document.getElementById('show-listings').addEventListener('click', showListings);
-    document.getElementById('clear').addEventListener('click', clearForm);
 
     // highlights an icon when mouse is over it
     var defaultIcon = makeMarkerIcon('FB6733');
@@ -163,6 +203,31 @@ var ViewModel = function() {
         bounds.extend(item.marker.position);
         map.fitBounds(bounds);
 
+        // request to Wikipedia API to find articles about universities
+        var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' +
+            item.title + '&format=json&callback=wikiCallback';
+        // There could be several result
+        var wikiRes = "";
+        // Not to wait too long if server is not responding
+        var wikiRequestTimeout = setTimeout(function() {
+            wikiRes = "Cannot load articles for " + item.title + ". Try to refresh page";
+        }, 2000);
+        //AJAX request to Wikipedia
+        $.ajax({
+            url: wikiUrl,
+            dataType: "jsonp",
+            success: function(response) {
+                var articleList = response[1];
+                for (var i = 0; i < articleList.length; i++) {
+                    articleStr = articleList[i];
+                    var url = 'http://en.wikipedia.org/wiki/' + articleStr;
+                    wikiRes += '<li><a href="' + url + '" target="_blank">' +
+                        articleStr + '</a></li>';
+                }
+                clearTimeout(wikiRequestTimeout);
+            }
+        });
+		
         //adds the 'click' event to marker
         google.maps.event.addListener(item.marker, 'click', function() {
             item.marker.setAnimation(google.maps.Animation.DROP);
@@ -176,41 +241,9 @@ var ViewModel = function() {
         //adds the 'mouseoover' & 'mouseout' event to marker
         google.maps.event.addListener(item.marker, 'mouseover', function() {
             item.marker.setIcon(highlightedIcon);
-
-
         });
         google.maps.event.addListener(item.marker, 'mouseout', function() {
             item.marker.setIcon(defaultIcon);
-        });
-
-        // request to Wikipedia API to find articles about universities
-        var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' +
-            item.title + '&format=json&callback=wikiCallback';
-
-
-        // There could be several result
-        var wikiRes = "";
-        // Not to wait too long if server is not responding
-        var wikiRequestTimeout = setTimeout(function() {
-            wikiRes = "Cannot load articles for " + item.title + ". Try to refresh page";
-        }, 2000);
-
-        //AJAX request to Wikipedia
-        $.ajax({
-
-            url: wikiUrl,
-            dataType: "jsonp",
-
-            success: function(response) {
-                var articleList = response[1];
-                for (var i = 0; i < articleList.length; i++) {
-                    articleStr = articleList[i];
-                    var url = 'http://en.wikipedia.org/wiki/' + articleStr;
-                    wikiRes += '<li><a href="' + url + '" target="_blank">' +
-                        articleStr + '</a></li>'
-                };
-                clearTimeout(wikiRequestTimeout);
-            }
         });
     });
 
@@ -222,54 +255,73 @@ var ViewModel = function() {
             } else {
                 item.marker.setVisible(true);
                 item.marker.setMap(map);
+                item.marker.setAnimation(google.maps.Animation.DROP);
                 bounds.extend(item.marker.position);
                 infoWindow.open(map, item.marker);
-                infoWindow.setContent(item.title + '<p> Click on the marker to find out more </p>');
+
+                var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' +
+                    item.title + '&format=json&callback=wikiCallback';
+
+                var wikiRes = "";
+
+                var wikiRequestTimeout = setTimeout(function() {
+                    wikiRes = "Cannot load articles for " + item.title + ". Try to refresh page";
+                }, 2000);
+
+                $.ajax({
+                    url: wikiUrl,
+                    dataType: "jsonp",
+                    success: function(response) {
+                        var articleList = response[1];
+                        for (var i = 0; i < articleList.length; i++) {
+                            articleStr = articleList[i];
+                            var url = 'http://en.wikipedia.org/wiki/' + articleStr;
+                            wikiRes += '<li><a href="' + url + '" target="_blank">' +
+                                articleStr + '</a></li>';
+                        }
+						infoWindow.setContent(item.title + '<br>' + '<p>Latitude: ' + item.located.lat +
+                                '<br>' + '<p>Longitude: ' + item.located.lng +
+                                '<br> <p style="text-align:center"><img src="' +
+                                item.logo + '" width="100"></p><br><p>Wikipedia articles about this place: </p>' + wikiRes);
+                        clearTimeout(wikiRequestTimeout);
+                        
+                    }
+                });
             }
         });
-    }
+    };
 
 
     // Hides markers when button 'Hide' is pressed
     // They are shown initially by default
-    function hideListings() {
+    self.hideListings = function() {
         self.locations_list.forEach(function(item) {
             item.marker.setMap(null);
         });
-    }
+    };
 
     // Displays markers on the map when 'Show' is pressed
-    function showListings() {
+    self.showListings = function() {
         var bounds = new google.maps.LatLngBounds();
         self.locations_list.forEach(function(item) {
-			infoWindow.close();
+            infoWindow.close();
             item.marker.setVisible(true);
             item.marker.setMap(map);
             bounds.extend(item.marker.position);
         });
         map.fitBounds(bounds);
-    }
-	 // Displays markers on the map when 'Show' is pressed
-    function showListings() {
-        var bounds = new google.maps.LatLngBounds();
-        self.locations_list.forEach(function(item) {
-			infoWindow.close();
-            item.marker.setVisible(true);
-            item.marker.setMap(map);
-            bounds.extend(item.marker.position);
-        });
-        map.fitBounds(bounds);
-    }
-	
+    };
+
+
     // searches for universities by its title
     self.search_result = ko.observableArray();
     self.searchInput = ko.observable('');
 
     // button that cleares entered text
-    function clearForm() {
-            searchInput('');
-        }
-        // adds all locations to the list to display
+    self.clearForm = function() {
+        self.searchInput('');
+    };
+    // adds all locations to the list to display
     self.locations_list.forEach(function(item) {
         self.search_result.push(item);
     });
@@ -278,8 +330,7 @@ var ViewModel = function() {
     // search function that sets only marker of satisfying element to visible
     // searches occurence of chars from input in the title of item
     self.search = function() {
-        // cleans the list 
-        hideListings();
+        self.hideListings();
         // takes the value from observable
         var searchItem = self.searchInput();
         // clears the previous search result 
@@ -294,7 +345,7 @@ var ViewModel = function() {
                 bounds.extend(item.marker.position);
                 // calls the infoWindow
                 infoWindow.open(map, item.marker);
-                infoWindow.setContent(item.title + '<p> Click on the marker to find out more </p>')
+                infoWindow.setContent(item.title + '<p> Click on the marker to find out more </p>');
             }
         });
     };
@@ -304,11 +355,10 @@ var ViewModel = function() {
 // as an answer to the request 
 
 function initApp() {
-	//initMap is called to initialize a map
+    //initMap is called to initialize a map
     initMap();
-	
-	// KnockoutJS binding is applied
+
+    // KnockoutJS binding is applied
     viewModel = new ViewModel();
     ko.applyBindings(viewModel);
-
-};
+}
