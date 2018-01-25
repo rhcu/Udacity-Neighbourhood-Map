@@ -327,7 +327,7 @@ var ViewModel = function() {
 		self.search_result.removeAll();
 		self.locations_list.forEach(function(item) {
         self.search_result.push(item);
-    })
+    });
     };
     // adds all locations to the list to display
     self.locations_list.forEach(function(item) {
