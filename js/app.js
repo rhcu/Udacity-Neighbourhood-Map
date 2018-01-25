@@ -266,7 +266,11 @@ var ViewModel = function() {
 
                 var wikiRequestTimeout = setTimeout(function() {
                     wikiRes = "Cannot load articles for " + item.title + ". Try to refresh page";
-                }, 2000);
+					infoWindow.setContent(item.title + '<br>' + '<p>Latitude: ' + item.located.lat +
+                                '<br>' + '<p>Longitude: ' + item.located.lng +
+                                '<br> <p style="text-align:center"><img src="' +
+                                item.logo + '" width="100"></p><br><p>Wikipedia articles about this place: </p>' + wikiRes);
+                }, 1500);
 
                 $.ajax({
                     url: wikiUrl,
@@ -320,6 +324,10 @@ var ViewModel = function() {
     // button that cleares entered text
     self.clearForm = function() {
         self.searchInput('');
+		self.search_result.removeAll();
+		self.locations_list.forEach(function(item) {
+        self.search_result.push(item);
+    })
     };
     // adds all locations to the list to display
     self.locations_list.forEach(function(item) {
@@ -345,7 +353,7 @@ var ViewModel = function() {
                 bounds.extend(item.marker.position);
                 // calls the infoWindow
                 infoWindow.open(map, item.marker);
-                infoWindow.setContent(item.title + '<p> Click on the marker to find out more </p>');
+                infoWindow.setContent(item.title + '<p> Click on the marker or item itself to find out more </p>');
             }
         });
     };
