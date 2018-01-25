@@ -266,7 +266,7 @@ var ViewModel = function() {
 
                 var wikiRequestTimeout = setTimeout(function() {
                     wikiRes = "Cannot load articles for " + item.title + ". Try to refresh page";
-					infoWindow.setContent(item.title + '<br>' + '<p>Latitude: ' + item.located.lat +
+	            infoWindow.setContent(item.title + '<br>' + '<p>Latitude: ' + item.located.lat +
                                 '<br>' + '<p>Longitude: ' + item.located.lng +
                                 '<br> <p style="text-align:center"><img src="' +
                                 item.logo + '" width="100"></p><br><p>Wikipedia articles about this place: </p>' + wikiRes);
@@ -283,7 +283,7 @@ var ViewModel = function() {
                             wikiRes += '<li><a href="' + url + '" target="_blank">' +
                                 articleStr + '</a></li>';
                         }
-						infoWindow.setContent(item.title + '<br>' + '<p>Latitude: ' + item.located.lat +
+			infoWindow.setContent(item.title + '<br>' + '<p>Latitude: ' + item.located.lat +
                                 '<br>' + '<p>Longitude: ' + item.located.lng +
                                 '<br> <p style="text-align:center"><img src="' +
                                 item.logo + '" width="100"></p><br><p>Wikipedia articles about this place: </p>' + wikiRes);
